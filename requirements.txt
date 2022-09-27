@@ -12,7 +12,6 @@ numpy==1.17.4
 oauthlib==3.1.0
 protobuf==3.6.1
 psutil==5.5.1
-PyGithub==1.43.7
 pyOpenSSL==19.0.0
 pyparsing==2.4.6
 pyserial==3.4
