@@ -35,7 +35,9 @@
                 <input id="titulo" type="text" name="titulo" />
                 <label for="detalhes">Details</label>
                 <textarea id="detalhes" name="detalhes"></textarea>
-                <input type="submit" />
+                <label for="tag">Tag</label>
+                <input id="tag" type="text" name="tag" />
+                <input type="submit"/>
             </form>
             
             <div class="card-container">
@@ -49,6 +51,9 @@
                         {{ note.details }}
                       </p>
                     </div>
+                    <p class="card-tag" contentEditable="false">
+                        {{ note.tag }}
+                    </p>
                     <a class="btn" type="button" href="edit/{{ note.id }}">Edit</a>
                     <a class="btn" type="button" href="delete/{{ note.id }}">Delete</a>
                 </div>
