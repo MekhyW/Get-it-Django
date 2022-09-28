@@ -1,15 +1,18 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Note
+from .models import Note, Tag
 
 
 def index(request):
     if request.method == 'POST':
         title = request.POST.get('titulo')
         content = request.POST.get('detalhes')
-        tag = request.POST.get('tag')
-        if not tag.startswith('#'):
-            tag = '#' + tag
+        tagname = request.POST.get('tag')
+        if not tagname.startswith('#'):
+            tagname = '#' + tagname
+        tag, created = Tag.objects.get_or_create(name=tagname)
+        if created:
+            tag.save()
         new_note = Note.objects.create(title=title, details=content, tag=tag)
         new_note.save()
         return redirect('index')
