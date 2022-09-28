@@ -26,3 +26,13 @@ def delete(request, note_id):
     note = Note.objects.get(id=note_id)
     note.delete()
     return redirect('index')
+
+def edit(request, note_id):
+    pass
+
+def listalltags(request):
+    all_tags = Tag.objects.all()
+    return render(request, 'notes/listalltags.html', {'tags': all_tags})
+
+def listtag(request, tag_id):
+    pass
