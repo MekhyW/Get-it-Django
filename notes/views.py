@@ -4,7 +4,6 @@ from .models import Note
 
 
 def index(request):
-    #return HttpResponse("Olá mundo! Este é o app notes de Tecnologias Web do Insper.")
     if request.method == 'POST':
         title = request.POST.get('titulo')
         content = request.POST.get('detalhes')
@@ -15,3 +14,9 @@ def index(request):
         all_notes = Note.objects.all()
         print(all_notes)
         return render(request, 'notes/index.html', {'notes': all_notes})
+
+
+def delete(request, note_id):
+    note = Note.objects.get(id=note_id)
+    note.delete()
+    return redirect('index')

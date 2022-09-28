@@ -2,56 +2,59 @@
 {% load static %}
 
 {% block content %}
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Get-it</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
-      crossorigin="anonymous"
-    />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'css/getit.css' %}" />
-</head>
-
-<body>
-    <div class="appbar">
-        <img src="{% static 'notes/img/logo-getit.png' %}" class="logo" />
-        <span class="subtitle">Like Post-it, but with another verb</span>
-    </div>
-
-    <main class="container">
-        <form method="post" class="form-card">
-            {% csrf_token %}
-            <label for="titulo">Title</label>
-            <input id="titulo" type="text" name="titulo" />
-            <label for="detalhes">Details</label>
-            <textarea id="detalhes" name="detalhes"></textarea>
-            <input type="submit" />
-        </form>
-        
-        <div class="card-container">
-            {% for note in notes %}
-            <div class="card" id=ID>
-                <h3 class="card-title" contentEditable="false">
-                    {{ note.title }}
-                </h3>
-                <div class="card-content">
-                  <p contentEditable="false">
-                    {{ note.details }}
-                  </p>
-                </div>
-                <button class="edit-card" name="edit" class="btn" type="button" onClick="Edit()">Edit</button>
-                <button class="trash-card" name="trash" class="btn" type="button" onClick="Trash()">Delete</button>
-            </div>
-            {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Get-it</title>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+          integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+          crossorigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto&family=Permanent+Marker&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{% static 'css/getit.css' %}" />
+    </head>
+    
+    <body>
+        <div class="appbar">
+            <img src="{% static 'notes/img/logo-getit.png' %}" class="logo" />
+            <span class="subtitle">Like Post-it, but with another verb</span>
         </div>
-    </main>
-</body>
+    
+        <main class="container">
+            <form method="post" class="form-card">
+                {% csrf_token %}
+                <label for="titulo">Title</label>
+                <input id="titulo" type="text" name="titulo" />
+                <label for="detalhes">Details</label>
+                <textarea id="detalhes" name="detalhes"></textarea>
+                <input type="submit" />
+            </form>
+            
+            <div class="card-container">
+                {% for note in notes %}
+                <div class="card" id=ID>
+                    <h3 class="card-title" contentEditable="false">
+                        {{ note.title }}
+                    </h3>
+                    <div class="card-content">
+                      <p contentEditable="false">
+                        {{ note.details }}
+                      </p>
+                    </div>
+                    <a class="btn" type="button" href="edit/{{ note.id }}">Edit</a>
+                    <a class="btn" type="button" href="delete/{{ note.id }}">Delete</a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </body>
+</html>
 {% endblock %}
