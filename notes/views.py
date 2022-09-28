@@ -28,7 +28,21 @@ def delete(request, note_id):
     return redirect('index')
 
 def edit(request, note_id):
-    pass
+    note = Note.objects.get(id=note_id)
+    if request.method == 'POST':
+        note.title = request.POST.get('titulo')
+        note.details = request.POST.get('detalhes')
+        tagname = request.POST.get('tag')
+        if not tagname.startswith('#'):
+            tagname = '#' + tagname
+        tag, created = Tag.objects.get_or_create(name=tagname)
+        if created:
+            tag.save()
+        note.tag = tag
+        note.save()
+        return redirect('index')
+    else:
+        return render(request, 'notes/edit.html', {'note': note})
 
 def listalltags(request):
     all_tags = Tag.objects.all()
