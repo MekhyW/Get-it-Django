@@ -49,4 +49,6 @@ def listalltags(request):
     return render(request, 'notes/listalltags.html', {'tags': all_tags})
 
 def listtag(request, tag_id):
-    pass
+    tag = Tag.objects.get(id=tag_id)
+    notes_with_tag = Note.objects.filter(tag=tag)
+    return render(request, 'notes/listtag.html', {'notes_with_tag': notes_with_tag, 'tag': tag})
