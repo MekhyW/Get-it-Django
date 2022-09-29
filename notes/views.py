@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template import RequestContext
 from .models import Note, Tag
+import random
 
 
 def index(request):
@@ -12,13 +14,17 @@ def index(request):
             tagname = '#' + tagname
         tag, created = Tag.objects.get_or_create(name=tagname)
         if created:
+            tag.color = random.randint(0, 16777215)
             tag.save()
         new_note = Note.objects.create(title=title, details=content, tag=tag)
         new_note.save()
         return redirect('index')
     else:
         all_notes = Note.objects.all()
-        print(all_notes)
+        for note in all_notes:
+            note.tag.color = '{0:06X}'.format(note.tag.color)
+            print(note.tag.color)
+            note.rotate = random.randint(-6, 6)
         return render(request, 'notes/index.html', {'notes': all_notes})
 
 
@@ -52,3 +58,9 @@ def listtag(request, tag_id):
     tag = Tag.objects.get(id=tag_id)
     notes_with_tag = Note.objects.filter(tag=tag)
     return render(request, 'notes/listtag.html', {'notes_with_tag': notes_with_tag, 'tag': tag})
+
+
+def handler404(request, *args, **argv):
+    response = render('404.html', {}, context_instance=RequestContext(request))
+    response.status_code = 404
+    return response

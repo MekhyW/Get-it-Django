@@ -46,7 +46,7 @@
         
         <div class="card-container">
             {% for note in notes %}
-            <div class="card" id=ID>
+            <div class="card" id="{{ note.id }}">
                 <h3 class="card-title" contentEditable="false">
                     {{ note.title }}
                 </h3>
@@ -61,6 +61,11 @@
                 <a class="btn" type="button" href="edit/{{ note.id }}">Edit</a>
                 <a class="btn" type="button" href="delete/{{ note.id }}">Delete</a>
             </div>
+            <script type="text/javascript">
+                var el = document.getElementById("{{ note.id }}");
+                el.style.backgroundColor = "#{{ note.tag.color }}";
+                el.style.transform = "rotate({{ note.rotate }}deg)";
+            </script>
             {% endfor %}
         </div>
     </main>
