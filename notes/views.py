@@ -1,9 +1,30 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import Http404
+from .serializers import NoteSerializer
 from .models import Note, Tag
 import random
 
+@api_view(['GET', 'POST'])
+def api_note(request, note_id):
+    try:
+        note = Note.objects.get(id=note_id)
+    except Note.DoesNotExist:
+        raise Http404()
+    if request.method == 'POST':
+        new_note_data = request.data
+        note.title = new_note_data['title']
+        note.details = new_note_data['details']
+        note.save()
+        serialized_note = NoteSerializer(note)
+        return Response(serialized_note.data)
+    else:
+        all_notes = Note.objects.all()
+        serialized_note = NoteSerializer(all_notes, many=True)
+        return Response(serialized_note.data)
 
 def index(request):
     if request.method == 'POST':

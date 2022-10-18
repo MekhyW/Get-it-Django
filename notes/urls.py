@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('api/notes/<int:note_id>/', views.api_note),
     path('delete/<int:note_id>', views.delete, name='delete'),
     path('edit/<int:note_id>', views.edit, name='edit'),
     path('listalltags', views.listalltags, name='listalltags'),
